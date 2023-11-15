@@ -60,8 +60,10 @@ class SearchServer {
         
         const vector<string> document_splitted = SplitIntoWordsNoStop(document);
         
+        double tf_of_one_word = 1./document_splitted.size();
+        
         for (auto& word : document_splitted) {
-            documents_[word][document_id] = documents_[word][document_id] + (1./ document_splitted.size());
+            documents_[word][document_id] +=tf_of_one_word;
         }
         
         document_count_++;
@@ -150,13 +152,17 @@ class SearchServer {
         return query;
     }
     
+    double FindIDF(const double sum_of_docs) const {
+        double IDF = log(document_count_/sum_of_docs);
+        return IDF;
+    }
+    
     map<int, double> AddAllPlusWords (const map<string, map<int, double>>& doc_words, const set<string>& query) const{
         map<int, double> plus_docs;
-        double IDF = 0;
         
         for (const auto& word : query) {
             if (doc_words.count(word)) {
-            IDF = log(document_count_/doc_words.at(word).size());
+                double IDF = FindIDF(doc_words.at(word).size());
                 
             for(const auto& test : doc_words.at(word)) {
                 plus_docs[test.first] = plus_docs[test.first] + IDF * test.second;
