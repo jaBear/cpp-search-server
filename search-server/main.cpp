@@ -63,7 +63,7 @@ class SearchServer {
         double tf_of_one_word = 1./document_splitted.size();
         
         for (auto& word : document_splitted) {
-            documents_[word][document_id] +=tf_of_one_word;
+            documents_[word][document_id] += tf_of_one_word;
         }
         
         document_count_++;
@@ -164,8 +164,8 @@ class SearchServer {
             if (doc_words.count(word)) {
                 double IDF = FindIDF(doc_words.at(word).size());
                 
-            for(const auto& test : doc_words.at(word)) {
-                plus_docs[test.first] = plus_docs[test.first] + IDF * test.second;
+            for(const auto& id : doc_words.at(word)) {
+                plus_docs[id.first] += IDF * id.second;
                 }
             }
             
