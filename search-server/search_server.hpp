@@ -10,6 +10,7 @@
 
 #include "document.hpp"
 #include "string_processing.hpp"
+#include "read_input_functions.hpp"
 
 const int MAX_RESULT_DOCUMENT_COUNT = 5;
 
@@ -97,7 +98,7 @@ std::vector<Document> SearchServer::FindTopDocuments(const std::string& raw_quer
 
     sort(matched_documents.begin(), matched_documents.end(),
          [](const Document& lhs, const Document& rhs) {
-             if (std::abs(lhs.relevance - rhs.relevance) < 1e-6) {
+             if (std::abs(lhs.relevance - rhs.relevance) < std::numeric_limits<double>::epsilon()) {
                  return lhs.rating > rhs.rating;
              } else {
                  return lhs.relevance > rhs.relevance;

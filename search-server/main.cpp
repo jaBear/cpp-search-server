@@ -1,9 +1,7 @@
 #include <iostream>
 #include <string>
 #include "paginator.hpp"
-#include "request_queue.hpp"
 #include "search_server.hpp"
-#include "document.hpp"
 #include "read_input_functions.hpp"
 
 using namespace std;
